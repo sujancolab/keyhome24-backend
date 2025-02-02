@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id         Int              @id @default(autoincrement())
+  email      String           @unique
+  password   String
+  name       String
+  role       String           @default("Utilisateur")
+  department String           @default("")
+  avatar     String           @default("")
+  phone      String           @default("")
+  location   String           @default("")
+  verified   Boolean          @default(true)
+  createdAt  DateTime         @default(now())
+  annonces   Annonces[]
+  payments   PaymentsStripe[]
+}
+
+model Annonces {
+  id              Int      @id @default(autoincrement())
+  type            String
+  propertyType    String
+  transactionType String
+  title           String
+  description     String
+  price           Float
+  rooms           Float
+  baths           Float
+  area            Float
+  location        Json
+  features        Json
+  status          String
+  images          String[]
+  createdAt       DateTime @default(now())
+  expirationDate  DateTime @default(now())
+  userId          Int
+  user            Users    @relation(fields: [userId], references: [id])
+  planId          String
+  plan            Plans    @relation(fields: [planId], references: [id])
+}
+
+model Plans {
+  id          String           @id
+  name        String
+  price       Float
+  duration    Int
+  description String
+  features    String[]
+  type        String           @default("property")
+  annonces    Annonces[]
+  payments    PaymentsStripe[]
+}
+
+model PaymentsStripe {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  planId    String
+  paymentId String
+  createdAt DateTime @default(now())
+  user      Users    @relation(fields: [userId], references: [id])
+  plan      Plans    @relation(fields: [planId], references: [id])
+}
+
+model Configuration {
+  id               Int    @id @default(autoincrement())
+  name             String
+  domain           String @default("keyhome24.com")
+  description      String
+  email            String
+  stripePrivateKey String
+  cgu              Json
+  pdd              Json
+  ml               Json
+}
+
+model Request {
+  id                 Int    @id @default(autoincrement())
+  type               String
+  title_search       String
+  canton             String
+  npa                String
+  city               String
+  budget             String
+  resumption_date    String
+  desired_date       String
+  maximum_costs      String
+  description_search String
+}

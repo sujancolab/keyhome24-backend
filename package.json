@@ -1,0 +1,27 @@
+{
+    "name": "back",
+    "module": "src/index.ts",
+    "type": "module",
+    "scripts": {
+        "dev": "bun upgrade && bun update && bun run --watch src/index.ts"
+    },
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5.6.3"
+    },
+    "dependencies": {
+        "@elysiajs/cors": "^1.2.0",
+        "@elysiajs/jwt": "^1.2.0",
+        "@elysiajs/swagger": "^1.2.0",
+        "@prisma/client": "5.22.0",
+        "@types/bcrypt": "^5.0.2",
+        "bcrypt": "^5.1.1",
+        "crypto-js": "^4.2.0",
+        "elysia": "^1.2.10",
+        "nodemailer": "^6.10.0",
+        "prisma": "^5.22.0",
+        "stripe": "^17.5.0"
+    }
+}
