@@ -17,7 +17,13 @@ const app = new Elysia().use(swagger()).use(
     })
 );
 
-app.use(cors());
+app.use(cors({
+    origin: ['https://keyhome24.com', 'http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge: 86400, // Cache preflight requests for 24 hours
+}));
 
 app.derive(async ({ headers, jwt }) => {
     const token = headers["authorization"] ?? null;

@@ -1,5 +1,5 @@
 import Router, { error, t } from "elysia";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import mailsend from '@Services/mail';
 import cryptUtils from "@Services/crypto";
 import UsersController from "@Controllers/AuthController";
